@@ -5,17 +5,39 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.content.Intent;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
+
+    static final int QR_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intentRESTAPI = new Intent(this, RESTAPI.class);
-        startActivity(intentRESTAPI);
+    }
+
+    //goes to qr activity when button is pressed
+    public void gotoQR(View v){
+        Intent intent = new Intent(this, QRActivity.class);
+        startActivityForResult(intent, QR_REQUEST);
+
+    }
+
+    //executes when qr activity is completed
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        if (requestCode == QR_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                String resultString = data.getExtras().getString("id");
+                Toast.makeText(this, resultString, Toast.LENGTH_LONG).show();
+                Intent intentRESTAPI = new Intent(this, RESTAPI.class);
+                startActivity(intentRESTAPI);
+            }
+        }
     }
 
     @Override
