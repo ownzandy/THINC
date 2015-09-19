@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 
-public class QRActivity extends ActionBarActivity {
+public class QRActivity extends Activity {
 
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 

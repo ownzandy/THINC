@@ -26,6 +26,10 @@
             android:name=".QRActivity"
             android:label="@string/title_activity_qr" >
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
     </application>
 
 </manifest>
