@@ -1,21 +1,34 @@
 package com.example.ownzandy.thinc;
 
 import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends Activity {
+    EditText loginText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+       loginText = (EditText)findViewById(R.id.loginText);
     }
 
 
-    @Override
+    public void login(View view) {
+
+        String pass = loginText.getText().toString();
+        Toast.makeText(this, pass, Toast.LENGTH_LONG).show();
+
+    }
+
+        @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
