@@ -33,6 +33,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".QRActivity" />
+
+        </activity>
+        <activity
+            android:name=".AuthLoadActivity"
+            android:label="@string/title_activity_auth_load" >
         </activity>
     </application>
 
