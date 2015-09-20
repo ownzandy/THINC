@@ -1,6 +1,9 @@
 package com.example.ownzandy.thinc;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
+import android.util.Log;
 import java.io.*;
 import java.util.*;
 import java.net.URI;
@@ -78,6 +81,150 @@ public class RESTAPI extends Activity {
 
     private class LongRunningGetIO extends AsyncTask <Void, Void, String> {
 
+        @Override
+        protected String doInBackground(Void... params) {
+            String text = null;
+            try {
+                HttpEntity entity = readDocument(docKey, authKey);
+                text = getASCIIContentFromEntity(entity);
+                text = process64(text);
+                String json = text;
+                JSONObject obj = new JSONObject(json);
+                HashMap<String, ArrayList<String>> infoMap = new HashMap<String, ArrayList<String>>();
+                ArrayList<String> nameList = getName(obj);
+                ArrayList<String> insuranceList = getInsurance(obj);
+                ArrayList<String> allergiesList = getAllergies(obj);
+                ArrayList<String> condList = getConditions(obj);
+                ArrayList<String> medList = getMeds(obj);
+                ArrayList<String> procList = getProcedure(obj);
+                infoMap.put("name", nameList);
+                infoMap.put("insurance", insuranceList);
+                infoMap.put("allergy", allergiesList);
+                infoMap.put("condition", condList);
+                infoMap.put("medication", medList);
+                infoMap.put("procedure", procList);
+            }
+            catch (Exception e) {
+                return e.getLocalizedMessage();
+            }
+            return text;
+        }
+
+        protected ArrayList<String> getAllergies(JSONObject obj) throws JSONException {
+            ArrayList<String> test = new ArrayList<String>();
+            JSONArray entryArr = obj.getJSONArray("entry");
+            JSONObject entryArr1 = entryArr.getJSONObject(1);
+            JSONArray allergyentryObj = entryArr1.getJSONArray("entry");
+            for (int i = 0; i < allergyentryObj.length(); i++) {
+                JSONObject contentObject = allergyentryObj.getJSONObject(i).getJSONObject("content");
+                JSONObject substanceObject = contentObject.getJSONObject("substance");
+                test.add(substanceObject.getString("display"));
+            }
+            return test;
+        }
+
+        protected ArrayList<String> getConditions(JSONObject obj) throws JSONException {
+            ArrayList<String> test = new ArrayList<String>();
+            JSONArray entryArr = obj.getJSONArray("entry");
+
+            JSONObject entryArr4 = entryArr.getJSONObject(4);
+            JSONArray condobjArr = entryArr4.getJSONArray("entry");
+            for (int i = 0; i < condobjArr.length(); i++) {
+                JSONObject contentObject = condobjArr.getJSONObject(i).getJSONObject("content");
+
+                test.add(contentObject.getJSONObject("code").getJSONArray("coding").getJSONObject(0).getString("display"));
+                test.add(contentObject.getString("onsetDate"));
+            }
+            return test;
+        }
+
+
+        protected ArrayList<String> getProcedure(JSONObject obj) throws JSONException {
+            ArrayList<String> test = new ArrayList<String>();
+            JSONArray entryArr = obj.getJSONArray("entry");
+
+            JSONObject entryArr3 = entryArr.getJSONObject(3);
+            JSONArray procobjArr = entryArr3.getJSONArray("entry");
+            for (int i = 0; i < procobjArr.length(); i++) {
+                JSONObject contentObject = procobjArr.getJSONObject(i).getJSONObject("content");
+
+                test.add(contentObject.getJSONObject("type").getString("text"));
+                test.add(contentObject.getJSONObject("date").getString("end"));
+            }
+            return test;
+        }
+
+
+        protected ArrayList<String> getMeds(JSONObject obj) throws JSONException {
+            ArrayList<String> test = new ArrayList<String>();
+            JSONArray entryArr = obj.getJSONArray("entry");
+
+            JSONObject entryArr2 = entryArr.getJSONObject(2);
+            JSONArray medentryObj = entryArr2.getJSONArray("entry");
+            for (int i = 0; i < medentryObj.length(); i++) {
+                JSONObject contentObject = medentryObj.getJSONObject(i).getJSONObject("content");
+                JSONObject medObject = contentObject.getJSONObject("medication");
+
+                test.add(medObject.getString("display"));
+            }
+            return test;
+        }
+
+        protected ArrayList<String> getInsurance(JSONObject obj) throws JSONException {
+            ArrayList<String> test = new ArrayList<String>();
+            JSONArray entryArr = obj.getJSONArray("entry");
+            JSONObject entryArr0 = entryArr.getJSONObject(0);
+            JSONObject providerObj = entryArr0.getJSONArray("careProvider").getJSONObject(0);
+            test.add(providerObj.getString("company"));
+            return test;
+        }
+
+        protected ArrayList<String> getName(JSONObject obj) throws JSONException {
+            ArrayList<String> test = new ArrayList<String>();
+            JSONArray entryArr = obj.getJSONArray("entry");
+            JSONObject entryArr0 = entryArr.getJSONObject(0);
+            JSONArray nameArr = entryArr0.getJSONArray("name");
+            JSONObject nameObj = nameArr.getJSONObject(0);
+            JSONArray familyArr = nameObj.getJSONArray("family");
+            JSONArray givenArr = nameObj.getJSONArray("given");
+
+            test.add(givenArr.getString(0));
+            test.add(givenArr.getString(1));
+            test.add(familyArr.getString(0));
+
+            return test;
+        }
+
+        protected int getIndex(JSONArray arr, String key) throws JSONException{
+            for (int i = 0; i < arr.length(); i++) {
+                if (arr.get(i) != null) {
+                    if (arr.getString(i) == key) {
+                        return i;
+                    }
+                }
+            }
+            return 0;
+        }
+
+        protected String getValueFromObject(JSONObject obj, String key) throws JSONException {
+            String name = "";
+            try {
+                if (obj.getJSONArray(key).length() > 0) {
+                    for (int i = 0; i < obj.getJSONArray(key).length(); i++) {
+                        name += obj.getJSONArray(key).get(i) + " ";
+                    }
+                }
+            } catch (JSONException e) {
+                name = obj.getString(key);
+            }
+            return name.trim();
+        }
+
+        protected String readFile(String path) throws FileNotFoundException{
+            String content = new Scanner("").useDelimiter("\\Z").next();
+            return content;
+        }
+
         protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
             InputStream in = entity.getContent();
             StringBuffer out = new StringBuffer();
@@ -88,23 +235,6 @@ public class RESTAPI extends Activity {
                 if (n>0) out.append(new String(b, 0, n));
             }
             return out.toString();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            String text = null;
-            try {
-                HttpEntity entity = readDocument(docKey, authKey);
-                text = getASCIIContentFromEntity(entity);
-                text = process64(text);
-                 String json = text;
-                  JSONObject obj = new JSONObject(json);
-                  text = obj.getString("hello");
-            }
-            catch (Exception e) {
-                return e.getLocalizedMessage();
-            }
-            return text;
         }
 
         protected String process64(String text) {
@@ -125,30 +255,6 @@ public class RESTAPI extends Activity {
                         new UsernamePasswordCredentials(user, ""),
                         HTTP.UTF_8, false));
                 HttpResponse response = httpClient.execute(httpGet, localContext);
-                entity = response.getEntity();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return entity;
-        }
-
-        protected HttpEntity addDocument(String doc, String user) throws FileNotFoundException, UnsupportedEncodingException {
-            HttpEntity entity = null;
-            byte[] data = doc.getBytes("UTF-8");
-            String base64 = Base64.encodeToString(data, Base64.DEFAULT);
-            try {
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpContext localContext = new BasicHttpContext();
-                HttpPost httpPost = new HttpPost();
-                URI uri = new URI("https://api.truevault.com/v1/vaults/c0b9d46b-6f6b-4dfd-89ab-7dcc9d88dfa1/documents");
-                httpPost.setURI(uri);
-                httpPost.addHeader(BasicScheme.authenticate(
-                        new UsernamePasswordCredentials(user, ""),
-                        HTTP.UTF_8, false));
-                List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(1);
-                nameValuePair.add(new BasicNameValuePair("document", base64 + "="));
-                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
-                HttpResponse response = httpClient.execute(httpPost, localContext);
                 entity = response.getEntity();
             } catch (Exception e) {
                 e.printStackTrace();
