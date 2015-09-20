@@ -1,5 +1,6 @@
 package com.example.ownzandy.thinc;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,30 +10,45 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
-    public HashMap<String, ArrayList<String>> myData;
+    private HashMap<String, ArrayList<String>> myData;
+    private String pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //get data
+        myData = (HashMap<String, ArrayList<String>>) this.getIntent().getExtras().get("myData");
+        pass = this.getIntent().getExtras().getString("authKey");
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_camera_alt_white_12dp);
 
         //Dynamically change patient name/title of page
-        toolbar.setTitle("Patient Name");
-        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+        ArrayList<String> nameData = myData.get("name");
+        String name = "";
+        for (String s : nameData) {
+            name += s + " ";
+        }
+        getSupportActionBar().setTitle(name.trim());
+        //Toast.makeText(this, name.trim(),Toast.LENGTH_LONG).show();
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.this.finish();
+                Intent QRIntent = new Intent(MainActivity.this, QRActivity.class);
+                QRIntent.putExtra("authKey", pass);
+                startActivity(QRIntent);
             }
         });
+
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Allergies"));

@@ -50,7 +50,6 @@ import android.widget.TextView;
 
 public class LoginActivity extends Activity {
 
-    private Button test;
 
     private EditText loginText;
     private TextView authText;
@@ -63,27 +62,15 @@ public class LoginActivity extends Activity {
 
        loginText = (EditText)findViewById(R.id.loginText);
 
-        test = (Button) findViewById(R.id.testing);
 
         loginText = (EditText)findViewById(R.id.loginText);
         authText = (TextView)findViewById(R.id.authText);
         authText.setVisibility(View.GONE);
 
-        onclickTest();
 
     }
 
-    //DELETE AFTER TEST
-    public void onclickTest(){
-        test.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent i = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(i);
-            }
-        });
-    }
-//DELETE DELETE DELETE DELETE DELETE DELETE
+
 
     public void login(View view) {
         pass = loginText.getText().toString();

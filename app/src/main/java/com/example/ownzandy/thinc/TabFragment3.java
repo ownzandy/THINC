@@ -16,10 +16,13 @@ public class TabFragment3 extends Fragment {
     private ListView diagnosis;
     private ArrayList<Map<String, String>> toAdd = new ArrayList<Map<String, String>>();
     private SimpleAdapter adapter;
-
+    private ArrayList<String> myDiag;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.medication2, container, false);
+
+        Map<String,ArrayList<String>> myData = ((MainActivity) getActivity()).getDataMap();
+        myDiag = myData.get("condition");
 
         diagnosis = (ListView) rootView.findViewById(R.id.myListView);
 
@@ -37,9 +40,12 @@ public class TabFragment3 extends Fragment {
         //for statement iterating over info and adding each to listViewArray
         ArrayList<Map<String, String>> toAdd = new ArrayList<Map<String, String>>();
         //for loop here
-        toAdd.add(putData("Atrial Fibrilation", "6/15"));
-        toAdd.add(putData("Heat Stroke, diagnosed", "7/12"));
-        toAdd.add(putData("PTSD", "10/10"));
+        for (int i=0; i<myDiag.size()-1; i+=2){
+            toAdd.add(putData(myDiag.get(i),myDiag.get(i+1)));
+        }
+//        toAdd.add(putData("Atrial Fibrilation", "6/15"));
+//        toAdd.add(putData("Heat Stroke, diagnosed", "7/12"));
+//        toAdd.add(putData("PTSD", "10/10"));
         return toAdd;
     }
 

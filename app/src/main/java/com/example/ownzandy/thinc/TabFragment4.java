@@ -23,13 +23,15 @@ public class TabFragment4 extends Fragment{
     private ArrayList<Map<String, String>> toAdd = new ArrayList<Map<String, String>>();
     private SimpleAdapter adapter;
     private String myIns;
+    private ArrayList<String> myProcedures;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.medication2, container, false);
+        View rootView = inflater.inflate(R.layout.procedures4, container, false);
         //get data from bundle
-        Map<String,ArrayList<String>> myData = ((MainActivity) getActivity()).getDataMap();
 
+        Map<String,ArrayList<String>> myData = ((MainActivity) getActivity()).getDataMap();
+        myProcedures = myData.get("procedure");
 
         //progammatically add insurance info at bottom.
 //        RelativeLayout relativeLayout =
@@ -58,12 +60,12 @@ public class TabFragment4 extends Fragment{
         //for statement iterating over info and adding each to listViewArray
         ArrayList<Map<String, String>> toAdd = new ArrayList<Map<String, String>>();
         //for loop here
-//        for (int=0; i<dataArray.size(); i++){
-//            toAdd.add(putData(dataArray.get(i),dataArray.get(i+1));
-//        }
-        toAdd.add(putData("Atrial Fibrilation", "7/24/09"));
-        toAdd.add(putData("Heat Stroke, diagnosed", "7/24/09"));
-        toAdd.add(putData("PTSD", "11/30/11"));
+        for (int i=0; i<myProcedures.size()-1; i+=2){
+            toAdd.add(putData(myProcedures.get(i),myProcedures.get(i+1)));
+        }
+//        toAdd.add(putData("Atrial Fibrilation", "7/24/09"));
+//        toAdd.add(putData("Heat Stroke, diagnosed", "7/24/09"));
+//        toAdd.add(putData("PTSD", "11/30/11"));
         return toAdd;
     }
 

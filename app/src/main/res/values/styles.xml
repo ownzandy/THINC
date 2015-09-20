@@ -8,6 +8,7 @@
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">#ffffff</item>
     </style>
+
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabTextAppearance">@style/MyCustomTabText</item>
     </style>
