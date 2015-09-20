@@ -168,9 +168,6 @@ public class LoginActivity extends Activity {
             }
             else {
                 authText.setVisibility(View.VISIBLE);
-                Intent QRIntent = new Intent(LoginActivity.this, QRActivity.class);
-                QRIntent.putExtra("authKey", pass);
-                startActivity(QRIntent);
             }
         }
     }
