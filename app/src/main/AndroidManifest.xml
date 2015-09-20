@@ -29,7 +29,10 @@
         </activity>
         <activity
             android:name="MainActivity"
-            android:label="MainActivity" >
+            android:label="Patient Name" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".QRActivity" />
         </activity>
     </application>
 

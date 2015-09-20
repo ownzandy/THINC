@@ -1,25 +1,42 @@
 package com.example.ownzandy.thinc;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
 public class LoginActivity extends Activity {
     EditText loginText;
-
+    Button test;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
        loginText = (EditText)findViewById(R.id.loginText);
+
+        test = (Button) findViewById(R.id.testing);
+
+        onclickTest();
     }
 
+    //DELETE AFTER TEST
+    public void onclickTest(){
+        test.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+//DELETE DELETE DELETE DELETE DELETE DELETE
 
     public void login(View view) {
 
