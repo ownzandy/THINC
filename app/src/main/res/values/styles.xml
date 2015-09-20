@@ -8,13 +8,15 @@
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">#ffffff</item>
     </style>
-
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabTextAppearance">@style/MyCustomTabText</item>
     </style>
 
     <style name="MyCustomTabText" parent="TextAppearance.AppCompat.Button">
-        <item name="android:textSize">3sp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">#ffffff</item>
     </style>
+
+
 
 </resources>

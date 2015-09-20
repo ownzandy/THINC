@@ -10,7 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+
 public class MainActivity extends AppCompatActivity {
+    public HashMap<String, ArrayList<String>> myData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Allergies"));
         tabLayout.addTab(tabLayout.newTab().setText("Medication"));
-        tabLayout.addTab(tabLayout.newTab().setText("Insurance"));
+        tabLayout.addTab(tabLayout.newTab().setText("Diagnosis"));
+        tabLayout.addTab(tabLayout.newTab().setText("Procedures"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
@@ -75,5 +81,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    //fragments call this method to get data
+    public HashMap<String, ArrayList<String>> getDataMap(){
+        return myData;
+    }
 }
