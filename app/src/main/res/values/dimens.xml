@@ -5,4 +5,5 @@
     <dimen name="textbox_height_value">50dp</dimen>
     <dimen name="logo_height">60dp</dimen>
     <dimen name="loginbuttonheight">50dp</dimen>
+    <dimen name="passwordtextsize">12dp</dimen>
 </resources>
