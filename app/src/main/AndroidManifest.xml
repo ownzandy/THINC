@@ -28,8 +28,13 @@
             android:label="@string/title_activity_qr" >
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="MainActivity" >
+            android:name="MainActivity"
+            android:label="Patient Name"
+            android:parentActivityName=".QRActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".QRActivity" />
+
         </activity>
         <activity
             android:name=".AuthLoadActivity"

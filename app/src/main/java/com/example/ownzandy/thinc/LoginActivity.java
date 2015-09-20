@@ -1,13 +1,16 @@
 package com.example.ownzandy.thinc;
 
 import android.content.Intent;
+
 import android.util.Log;
+
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import org.json.JSONObject;
@@ -46,6 +49,9 @@ import android.widget.TextView;
 
 
 public class LoginActivity extends Activity {
+
+    private Button test;
+
     private EditText loginText;
     private TextView authText;
     private String pass;
@@ -54,11 +60,30 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+       loginText = (EditText)findViewById(R.id.loginText);
+
+        test = (Button) findViewById(R.id.testing);
+
         loginText = (EditText)findViewById(R.id.loginText);
         authText = (TextView)findViewById(R.id.authText);
         authText.setVisibility(View.GONE);
+
+        onclickTest();
+
     }
 
+    //DELETE AFTER TEST
+    public void onclickTest(){
+        test.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+//DELETE DELETE DELETE DELETE DELETE DELETE
 
     public void login(View view) {
         pass = loginText.getText().toString();
@@ -143,9 +168,6 @@ public class LoginActivity extends Activity {
             }
             else {
                 authText.setVisibility(View.VISIBLE);
-                Intent QRIntent = new Intent(LoginActivity.this, QRActivity.class);
-                QRIntent.putExtra("authKey", pass);
-                startActivity(QRIntent);
             }
         }
     }

@@ -46,10 +46,19 @@ tools:context=".LoginActivity"
             android:background="@color/background_material_light"
             android:autoText="false"
             android:editable="false"
-            android:gravity="center_vertical"
             android:textColor="#000000"
             android:layout_marginTop="113dp"
             android:layout_below="@+id/logoImageView"
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="@dimen/passwordtextsize" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/testing"
+            android:layout_alignParentTop="true"
             android:layout_alignParentStart="true" />
 
         <TextView

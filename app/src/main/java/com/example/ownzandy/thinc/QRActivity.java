@@ -31,7 +31,8 @@ public class QRActivity extends Activity {
         scanQR();
     }
 
-    protected void onStart(Bundle savedInstanceState){
+
+    protected void onResume(Bundle savedInstanceState){
         scanQR();
     }
 

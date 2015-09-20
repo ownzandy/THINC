@@ -1,64 +1,88 @@
 package com.example.ownzandy.thinc;
 
-import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.content.Intent;
-import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
-public class MainActivity extends Activity {
-
-    static final int QR_REQUEST = 1;
+public class MainActivity extends AppCompatActivity {
+    public HashMap<String, ArrayList<String>> myData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_camera_alt_white_12dp);
 
-    //goes to qr activity when button is pressed
-    public void gotoQR(View v){
-        Intent intent = new Intent(this, QRActivity.class);
-        startActivityForResult(intent, QR_REQUEST);
-
-    }
-
-    //executes when qr activity is completed
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent data) {
-        if (requestCode == QR_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                String resultString = data.getExtras().getString("id");
-                Toast.makeText(this, resultString, Toast.LENGTH_LONG).show();
-                Intent intentRESTAPI = new Intent(this, RESTAPI.class);
-                startActivity(intentRESTAPI);
+        //Dynamically change patient name/title of page
+        toolbar.setTitle("Patient Name");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                MainActivity.this.finish();
             }
-        }
-    }
+        });
 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Allergies"));
+        tabLayout.addTab(tabLayout.newTab().setText("Medication"));
+        tabLayout.addTab(tabLayout.newTab().setText("Diagnosis"));
+        tabLayout.addTab(tabLayout.newTab().setText("Procedures"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final PagerAdapter adapter = new PagerAdapter
+                (getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //fragments call this method to get data
+    public HashMap<String, ArrayList<String>> getDataMap(){
+        return myData;
     }
 }
