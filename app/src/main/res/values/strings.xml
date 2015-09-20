@@ -7,5 +7,6 @@
     <string name="title_activity_restapi">RESTAPI</string>
     <string name="title_activity_qr">QRActivity</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_auth_load">AuthLoadActivity</string>
 
 </resources>

@@ -20,12 +20,18 @@ public class QRActivity extends Activity {
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
 
-    private String id;
+    private String docKey;
+    private String authKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr);
+        authKey = getIntent().getExtras().getString("authKey");
+        scanQR();
+    }
+
+    protected void onStart(Bundle savedInstanceState){
         scanQR();
     }
 
@@ -68,12 +74,14 @@ public class QRActivity extends Activity {
             if (resultCode == RESULT_OK) {
                 //get the extras that are returned from the intent
                 String contents = intent.getStringExtra("SCAN_RESULT");
-                String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-                id = contents;
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("id", contents);
-                setResult(RESULT_OK, resultIntent);
-                finish();
+//                String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+                docKey = contents;
+                Intent resultIntent = new Intent(QRActivity.this, RESTAPI.class);
+                resultIntent.putExtra("docKey", docKey);
+                resultIntent.putExtra("authKey", authKey);
+                startActivity(resultIntent);
+
+
 //                Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
 //                toast.show();
             }
