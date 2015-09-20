@@ -18,14 +18,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        toolbar.setNavigationIcon(R.drawable.ic_camera_alt_white_24dp);
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         //Dynamically change patient name/title of page
         toolbar.setTitle("Patient Name");
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Allergies"));
         tabLayout.addTab(tabLayout.newTab().setText("Medication"));
-        tabLayout.addTab(tabLayout.newTab().setText("Insurance"));
+        tabLayout.addTab(tabLayout.newTab().setText("Diagnosis"));
+        tabLayout.addTab(tabLayout.newTab().setText("Procedures"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
