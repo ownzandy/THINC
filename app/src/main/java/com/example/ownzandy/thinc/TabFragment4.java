@@ -19,7 +19,7 @@ import java.util.Map;
  * Created by Thomas on 9/20/15.
  */
 public class TabFragment4 extends Fragment{
-    private ListView allergyList;
+    private ListView procedures;
     private ArrayList<Map<String, String>> toAdd = new ArrayList<Map<String, String>>();
     private SimpleAdapter adapter;
     private String myIns;
@@ -27,6 +27,9 @@ public class TabFragment4 extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.medication2, container, false);
+        //get data from bundle
+        Map<String,ArrayList<String>> myData = ((MainActivity) getActivity()).getDataMap();
+
 
         //progammatically add insurance info at bottom.
 //        RelativeLayout relativeLayout =
@@ -39,14 +42,14 @@ public class TabFragment4 extends Fragment{
 //        textView.setText("myIns");
 //        relativeLayout.addView(textView);
 
-        allergyList = (ListView) rootView.findViewById(R.id.myListView);
+        procedures = (ListView) rootView.findViewById(R.id.myListView);
 
         ArrayList<Map<String, String>> toAdd = builds();
         String[] from = {"desc", "date"};
         int[] to = {android.R.id.text1, android.R.id.text2};
 
         adapter = new SimpleAdapter(getActivity(), toAdd, android.R.layout.simple_list_item_2, from, to);
-        allergyList.setAdapter(adapter);
+        procedures.setAdapter(adapter);
 
         return rootView;
     }

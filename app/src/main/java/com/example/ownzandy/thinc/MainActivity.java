@@ -10,7 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+
 public class MainActivity extends AppCompatActivity {
+    public HashMap<String, ArrayList<String>> myData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,5 +81,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    //fragments call this method to get data
+    public HashMap<String, ArrayList<String>> getDataMap(){
+        return myData;
+    }
 }

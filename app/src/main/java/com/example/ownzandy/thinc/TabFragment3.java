@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TabFragment3 extends Fragment {
-    private ListView allergyList;
+    private ListView diagnosis;
     private ArrayList<Map<String, String>> toAdd = new ArrayList<Map<String, String>>();
     private SimpleAdapter adapter;
 
@@ -21,14 +21,14 @@ public class TabFragment3 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.medication2, container, false);
 
-        allergyList = (ListView) rootView.findViewById(R.id.myListView);
+        diagnosis = (ListView) rootView.findViewById(R.id.myListView);
 
         ArrayList<Map<String, String>> toAdd = builds();
         String[] from = {"desc", "date"};
         int[] to = {android.R.id.text1, android.R.id.text2};
 
         adapter = new SimpleAdapter(getActivity(), toAdd, android.R.layout.simple_list_item_2, from, to);
-        allergyList.setAdapter(adapter);
+        diagnosis.setAdapter(adapter);
 
         return rootView;
     }
